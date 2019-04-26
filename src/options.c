@@ -41,7 +41,7 @@ void	get_flag(t_opt *opt, const char **str)
 	}
 }
 
-void	get_width(t_opt *opt, const char **str)
+void	get_width(t_opt *opt, const char **str, va_list *arg)
 {
 	opt->width = 0;
 	while (**str != '\0' && (('0' <= (**str) && (**str) <= '9')
@@ -49,7 +49,7 @@ void	get_width(t_opt *opt, const char **str)
 	{
 		if (**str == '*')
 		{
-			opt->width = -1;
+			opt->width = va_arg(*arg, int);
 			(*str)++;
 			break ;
 		}
@@ -62,17 +62,18 @@ void	get_width(t_opt *opt, const char **str)
 	}
 }
 
-void	get_precision(t_opt *opt, const char **str)
+void	get_precision(t_opt *opt, const char **str, va_list *arg)
 {
 	opt->precision = 0;
 	if (**str != '.')
 		return ;
+	(*str)++;
 	while (**str != '\0' && (('0' <= (**str) && (**str) <= '9')
 		|| **str == '*'))
 	{
 		if (**str == '*')
 		{
-			opt->precision = -1;
+			opt->precision = va_arg(*arg, int);
 			(*str)++;
 			break ;
 		}
@@ -122,15 +123,15 @@ void	get_length(t_opt *opt, const char **str)
 	}
 }
 
-t_opt	parse_opt(const char **str)
+t_opt	parse_opt(const char **str, va_list *arg)
 {
 	int		i;
 	t_opt	out;
 
 	i = 0;
 	get_flag(&out, str);
-	get_width(&out, str);
-	get_precision(&out, str);
+	get_width(&out, str, arg);
+	get_precision(&out, str, arg);
 	get_length(&out, str);
 	out.spec = **str;
 	return (out);

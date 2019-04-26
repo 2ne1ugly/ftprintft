@@ -31,13 +31,14 @@ void		d_set_arg(intmax_t *val, int length, va_list *arg)
 void		fmt_d(t_vec *vec, t_opt *opt, va_list *arg)
 {
 	intmax_t	raw;
+	uintmax_t	new;
 	int			length;
 	char		*out;
 
-	(void)opt;
 	d_set_arg(&raw, opt->length, arg);
-	length = base_n_length(raw, 10);
-	out = itoa_base(raw, length, 10, 0);
+	new = add_sign(vec, raw, opt);
+	length = base_n_length(new, 10);
+	out = itoa_base(new, length, 10, 0);
 	pad_vec(vec, out, length, opt);
 	free(out);
 }

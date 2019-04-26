@@ -18,6 +18,7 @@
 # include <libft.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdint.h>
 
 typedef enum	e_flags
 {
@@ -77,7 +78,7 @@ void			push_back_str(t_vec *vec, const char *str, int n);
 void			free_vec(t_vec *vec);
 void			expand_vec(t_vec *vec, int n);
 void			null_ter_vec(t_vec *vec);
-t_opt			parse_opt(const char **str);
+t_opt			parse_opt(const char **str, va_list *arg);
 
 int				base_n_length(size_t val, int base);
 char			*itoa_base(size_t val, int count, int n, int is_upper);
@@ -89,4 +90,5 @@ void			fmt_n(t_vec *vec, t_opt *opt, va_list *arg);
 void			fmt_d(t_vec *vec, t_opt *opt, va_list *arg);
 void			fmt_u(t_vec *vec, t_opt *opt, va_list *arg);
 void			pad_vec(t_vec *vec, char *str, int n, t_opt *opt);
+void			pad_zero(char **str, int *n, t_opt *opt);
 #endif

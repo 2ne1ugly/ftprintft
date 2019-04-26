@@ -37,10 +37,19 @@ void	fmt_u(t_vec *vec, t_opt *opt, va_list *arg)
 
 	u_set_arg(&val, opt->length, arg);
 	base = 10;
-	if (opt->spec == 'x' || opt->spec == 'X')
-		base = 16;
-	else if (opt->spec == 'o')
+	if (opt->spec == 'x' || opt->spec == 'X' || opt->spec == 'o')
+	{
 		base = 8;
+		if (opt->flags & sharp)
+			push_back_str(vec, "0", 1);
+		if (opt->spec == 'x' || opt->spec == 'X')
+		{
+			push_back_str(vec, &opt->spec, 1);
+			base = 16;
+			if (opt->flags & sharp)
+				push_back_str(vec, &opt->spec, 1);
+		}
+	}
 	length = base_n_length(val, base);
 	out = itoa_base(val, length, base, opt->spec == 'X');
 	push_back_str(vec, out, length);

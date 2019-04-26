@@ -55,24 +55,69 @@ void	pad_vec(t_vec *vec, char *str, int n, t_opt *opt)
 	int		i;
 
 	if (opt->width > n)
-	{
 		if (opt->flags & minus)
 		{
 			push_back_str(vec, str, n);
 			i = n - 1;
 			while (++i < opt->width)
 				push_back_str(vec, " ", 1);
-			n = opt->width;
 		}
 		else
 		{
 			i = -1;
 			while (++i < opt->width - n)
-				push_back_str(vec, " ", 1);
+				if (opt->flags & zero)
+					push_back_str(vec, "0", 1);
+				else
+					push_back_str(vec, " ", 1);
 			push_back_str(vec, str, n);
 		}
-	}
 	else
 		push_back_str(vec, str, n);
 }
 
+uintmax_t	add_sign(t_vec *vec, intmax_t val, t_opt *opt)
+{
+	uintmax_t new;
+
+	if (val < 0)
+	{
+		if (!(opt->flags & space))
+		{
+			opt->width--;
+			push_back_str(vec, "-", 1);
+		}
+		new = val * -1;
+	}
+	else
+	{
+		if (opt->flags & plus)
+		{
+			opt->width--;
+			push_back_str(vec, "+", 1);
+		}
+		new = val;
+	}
+	return (new);
+}
+
+void	pad_zero(char **str, int *n, t_opt *opt)
+{
+	int		i;
+	char	*new;
+
+	if (opt->width > n)
+	{
+		new = malloc(sizeof(char) * opt->width);
+		i = 0;
+		while (*n < opt->width)
+		{
+			new[i] = '0';
+			i++;
+			(*n)++;
+		}
+		ft_memcpy(&new[i], *str, (*n) - i);
+		free(*str);
+		*str = new;
+	}
+}

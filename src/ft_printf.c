@@ -31,7 +31,7 @@ void	format_this(t_vec *vec, const char **format, va_list *list)
 	t_opt opt;
 
 	(*format)++;
-	opt = parse_opt(format);
+	opt = parse_opt(format, list);
 	g_disp_spec[(int)opt.spec](vec, &opt, list);
 }
 
