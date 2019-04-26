@@ -39,6 +39,7 @@ void		fmt_d(t_vec *vec, t_opt *opt, va_list *arg)
 	new = add_sign(vec, raw, opt);
 	length = base_n_length(new, 10);
 	out = itoa_base(new, length, 10, 0);
+	pad_zero(&out, &length, opt);
 	pad_vec(vec, out, length, opt);
 	free(out);
 }

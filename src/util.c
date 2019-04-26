@@ -106,11 +106,11 @@ void	pad_zero(char **str, int *n, t_opt *opt)
 	int		i;
 	char	*new;
 
-	if (opt->width > n)
+	if (opt->precision > n)
 	{
-		new = malloc(sizeof(char) * opt->width);
+		new = malloc(sizeof(char) * opt->precision);
 		i = 0;
-		while (*n < opt->width)
+		while (*n < opt->precision)
 		{
 			new[i] = '0';
 			i++;

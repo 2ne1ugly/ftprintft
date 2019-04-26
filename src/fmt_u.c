@@ -52,6 +52,8 @@ void	fmt_u(t_vec *vec, t_opt *opt, va_list *arg)
 	}
 	length = base_n_length(val, base);
 	out = itoa_base(val, length, base, opt->spec == 'X');
+	pad_zero(&out, &length, opt);
+	pad_vec(vec, out, length, opt);
 	push_back_str(vec, out, length);
 	free(out);
 }
