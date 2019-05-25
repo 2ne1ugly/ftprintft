@@ -1,0 +1,57 @@
+Test 1197 (p_ftfc_literal_9w_prec2) : FAILED.
+    First line of code: {return test("%9.2p
+", 1234);}
+    Returned expected 11, actual 6
+      expected : "    0x4d2
+"
+      actual   : "0x4d2
+"
+
+Test 1200 (p_ftfc_zero_prec0) : FAILED.
+    First line of code: {return test("%.0p", 0);}
+    Returned expected 2, actual 3
+      expected : "0x"
+      actual   : "0x0"
+
+Test 1201 (p_ftfc_5w) : FAILED.
+    First line of code: {return test("%5p", 0);}
+    Returned expected 5, actual 3
+      expected : "  0x0"
+      actual   : "0x0"
+
+Test 1203 (p_width_fit) : FAILED.
+    First line of code: {return test("%70p%70p%70p%70p%70p%70p%70p%70p%70p%70p%70p%70p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
+    Returned expected 1012, actual 156
+      expected : "                                                           0x10819b2e9                                                           0x10819b2ea          "
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
+Test 1205 (p_width_16) : FAILED.
+    First line of code: {return test("%16p%16p%16p%16p%16p%16p%16p%16p%16p%16p%16p%16p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
+    Returned expected 222, actual 156
+      expected : "     0x10819b2e9     0x10819b2ea     0x10819b2ec     0x10819b2ee     0x10819b2f0     0x10819b2f4     0x10819b2f8     0x10819b300     0x10819b308     0"
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
+Test 1207 (p_width_32) : FAILED.
+    First line of code: {return test("%32p%32p%32p%32p%32p%32p%32p%32p%32p%32p%32p%32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
+    Returned expected 455, actual 156
+      expected : "                     0x10819b2e9                     0x10819b2ea                     0x10819b2ec                     0x10819b2ee                     0"
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
+Test 1208 (p_width_fit_lj) : FAILED.
+    First line of code: {return test("%-70p%-70p%-70p%-70p%-70p%-70p%-70p%-70p%-70p%-70p%-70p%-70p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10
+    Returned expected 1012, actual 156
+      expected : "0x10819b2e9                                                           0x10819b2ea                                                           0x10819b2e"
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
+Test 1210 (p_width_16_lj) : FAILED.
+    First line of code: {return test("%-16p%-16p%-16p%-16p%-16p%-16p%-16p%-16p%-16p%-16p%-16p%-16p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10
+    Returned expected 222, actual 156
+      expected : "0x10819b2e9     0x10819b2ea     0x10819b2ec     0x10819b2ee     0x10819b2f0     0x10819b2f4     0x10819b2f8     0x10819b300     0x10819b308     0x1081"
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
+Test 1212 (p_width_32_lj) : FAILED.
+    First line of code: {return test("%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10
+    Returned expected 455, actual 156
+      expected : "0x10819b2e9                     0x10819b2ea                     0x10819b2ec                     0x10819b2ee                     0x10819b2f0           "
+      actual   : "0x10819b2e90x10819b2ea0x10819b2ec0x10819b2ee0x10819b2f00x10819b2f40x10819b2f80x10819b3000x10819b3080x10819b3100x10819b3180x10819b320"
+
