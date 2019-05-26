@@ -6,7 +6,7 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 19:13:06 by mchi              #+#    #+#             */
-/*   Updated: 2019/04/25 22:36:16 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 20:33:43 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,43 @@
 
 void		d_set_arg(intmax_t *val, int length, va_list *arg)
 {
-	if (length == 0 || length == 1 || length == 2)
+	if (length == 0)
 		*val = va_arg(*arg, int);
-	else if (length == 3)
+	else if (length == HH)
+		*val = (char)va_arg(*arg, int);
+	else if (length == H)
+		*val = (short)va_arg(*arg, int);
+	else if (length == LL)
 		*val = va_arg(*arg, long int);
-	else if (length == 4)
+	else if (length == SL)
 		*val = va_arg(*arg, long long int);
-	else if (length == 5)
+	else if (length == J)
 		*val = va_arg(*arg, intmax_t);
-	else if (length == 6)
+	else if (length == Z)
 		*val = va_arg(*arg, size_t);
-	else if (length == 7)
+	else if (length == T)
 		*val = va_arg(*arg, ptrdiff_t);
 }
 
-void		fmt_d(t_vec *vec, t_opt *opt, va_list *arg)
+t_vec		fmt_d(t_opt *opt, va_list *arg)
 {
 	intmax_t	raw;
-	uintmax_t	new;
-	int			length;
-	char		*out;
+	uintmax_t	no_sign;
+	t_vec		out;
 
+	if (opt->precision == -1)
+		opt->precision = 1;
+	else
+		opt->flags &= ~ZERO;
 	d_set_arg(&raw, opt->length, arg);
-	new = add_sign(vec, raw, opt);
-	length = base_n_length(new, 10);
-	out = itoa_base(new, length, 10, 0);
-	pad_zero(&out, &length, opt);
-	pad_vec(vec, out, length, opt);
-	free(out);
+	init_vec(&out);
+	no_sign = raw;
+	if (raw < 0)
+		no_sign = raw * -1;
+	max_itoa_base(&out, no_sign, 10, FALSE);
+	pad_num_precision(&out, opt);
+	add_pre_sign(&out, opt, raw < 0);
+	pad_width(&out, opt);
+	add_post_sign(&out, opt, raw < 0);
+	return (out);
 }

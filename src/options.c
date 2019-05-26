@@ -6,37 +6,28 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 13:16:53 by mchi              #+#    #+#             */
-/*   Updated: 2019/04/25 22:18:12 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 23:46:26 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_int.h"
 
-/*
-** 1 -> -
-** 2 -> +
-** 3 -> ' '
-** 4 -> #
-** 5 -> 0
-*/
-
 void	get_flag(t_opt *opt, const char **str)
 {
 	opt->flags = 0;
-
 	while (**str != '\0' && (**str == '-' || **str == '+' || **str == ' '
 		|| **str == '#' || **str == '0'))
 	{
 		if (**str == '-')
-			opt->flags |= minus;
+			opt->flags |= MINUS;
 		else if (**str == '+')
-			opt->flags |= plus;
+			opt->flags |= PLUS;
 		else if (**str == ' ')
-			opt->flags |= space;
+			opt->flags |= SPACE;
 		else if (**str == '#')
-			opt->flags |= sharp;
+			opt->flags |= SHARP;
 		else if (**str == '0')
-			opt->flags |= zero;
+			opt->flags |= ZERO;
 		(*str)++;
 	}
 }
@@ -64,9 +55,10 @@ void	get_width(t_opt *opt, const char **str, va_list *arg)
 
 void	get_precision(t_opt *opt, const char **str, va_list *arg)
 {
-	opt->precision = 0;
+	opt->precision = -1;
 	if (**str != '.')
 		return ;
+	opt->precision = 0;
 	(*str)++;
 	while (**str != '\0' && (('0' <= (**str) && (**str) <= '9')
 		|| **str == '*'))
@@ -86,33 +78,21 @@ void	get_precision(t_opt *opt, const char **str, va_list *arg)
 	}
 }
 
-/*
-** 0 -> ' '
-** 1 -> hh
-** 2 -> h
-** 3 -> ll
-** 4 -> l
-** 5 -> j
-** 6 -> z
-** 7 -> t
-** 8 -> L
-*/
-
 void	get_length(t_opt *opt, const char **str)
 {
 	opt->length = 0;
 	if (**str == 'h')
-		opt->length = 2;
+		opt->length = H;
 	else if (**str == 'l')
-		opt->length = 4;
+		opt->length = SL;
 	else if (**str == 'j')
-		opt->length = 5;
+		opt->length = J;
 	else if (**str == 'z')
-		opt->length = 6;
+		opt->length = Z;
 	else if (**str == 't')
-		opt->length = 7;
+		opt->length = T;
 	else if (**str == 'L')
-		opt->length = 8;
+		opt->length = L;
 	if (**str == 'h' || **str == 'l' || **str == 'j' || **str == 'z'
 		|| **str == 't' || **str == 'L')
 		(*str)++;

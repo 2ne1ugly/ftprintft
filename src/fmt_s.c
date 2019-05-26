@@ -6,22 +6,26 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 18:32:51 by mchi              #+#    #+#             */
-/*   Updated: 2019/04/25 19:05:19 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 19:34:46 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_int.h"
 
-void	fmt_s(t_vec *vec, t_opt *opt, va_list *arg)
+t_vec	fmt_s(t_opt *opt, va_list *arg)
 {
-	char *str;
+	char	*str;
+	t_vec	out;
+	int		length;
 
-	(void)opt;
-	str = va_arg(*arg, void*);
+	init_vec(&out);
+	str = va_arg(*arg, char*);
 	if (str == NULL)
-	{
-		push_back_str(vec, "(null)", 6);
-		return ;
-	}
-	push_back_str(vec, str, ft_strlen(str));
+		str = "(null)";
+	length = ft_strlen(str);
+	if (opt->precision == -1 || length < opt->precision)
+		opt->precision = length;
+	push_back_str(&out, str, opt->precision);
+	pad_width(&out, opt);
+	return (out);
 }

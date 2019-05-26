@@ -6,7 +6,7 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 13:25:08 by awindham          #+#    #+#             */
-/*   Updated: 2019/04/11 13:06:03 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 23:49:56 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char		**ft_strsplit(char const *s, char c)
 	alloc_list(s, c, &list);
 	if (list == NULL)
 		return (NULL);
-	i = 0;
+	i = -1;
 	while (*s != '\0')
 	{
 		while (*s == c && *s != '\0')
@@ -65,16 +65,13 @@ char		**ft_strsplit(char const *s, char c)
 		if (*s == '\0')
 			break ;
 		length = ft_word_length(s, c);
-		list[i] = (char *)malloc(sizeof(char) * (unsigned long)(length + 1));
+		list[++i] = (char *)malloc(sizeof(char) * (unsigned long)(length + 1));
 		if (list[i] == NULL)
 			return (NULL);
 		ft_strncpy(list[i], s, (unsigned long)length);
 		list[i][length] = '\0';
-		if (strcmp(list[i], "") == 0)
-			printf("%s, %d\n", list[i], i);
 		while (*s != c && *s != '\0')
 			s++;
-		i++;
 	}
 	return (list);
 }

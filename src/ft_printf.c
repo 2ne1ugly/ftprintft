@@ -6,13 +6,13 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:38:12 by mchi              #+#    #+#             */
-/*   Updated: 2019/04/25 19:57:23 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 19:00:25 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_int.h"
 
-void	(*g_disp_spec[128])(t_vec *, t_opt *, va_list *) =
+t_vec	(*g_disp_spec[])(t_opt *, va_list *) =
 {
 	['d'] = fmt_d,
 	['i'] = fmt_d,
@@ -23,16 +23,23 @@ void	(*g_disp_spec[128])(t_vec *, t_opt *, va_list *) =
 	['c'] = fmt_c,
 	['s'] = fmt_s,
 	['p'] = fmt_p,
-	['n'] = fmt_n
+	['f'] = fmt_f,
+	['%'] = fmt_per
 };
 
 void	format_this(t_vec *vec, const char **format, va_list *list)
 {
-	t_opt opt;
+	t_opt	opt;
+	t_vec	sub_vec;
 
 	(*format)++;
 	opt = parse_opt(format, list);
-	g_disp_spec[(int)opt.spec](vec, &opt, list);
+	if (opt.spec == 'n')
+		fmt_n(&opt, list, vec->size);
+	else
+		sub_vec = g_disp_spec[(int)opt.spec](&opt, list);
+	push_back_str(vec, sub_vec.ptr, sub_vec.size);
+	free_vec(&sub_vec);
 }
 
 int		ft_printf(const char *format, ...)
@@ -44,14 +51,13 @@ int		ft_printf(const char *format, ...)
 	init_vec(&vec);
 	while (*format != '\0')
 	{
-		if (*format == '%' && (format[1]) != '%')
+		if (*format == '%')
 			format_this(&vec, &format, &list);
 		else
 			push_back_str(&vec, format, 1);
 		format++;
 	}
-	null_ter_vec(&vec);
-	write(1, vec.ptr, vec.size + 1);
+	write(1, vec.ptr, vec.size);
 	va_end(list);
 	free_vec(&vec);
 	return (vec.size);

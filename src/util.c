@@ -6,118 +6,70 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 19:56:35 by mchi              #+#    #+#             */
-/*   Updated: 2019/04/25 22:37:54 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/25 20:42:26 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_int.h"
 
-int		base_n_length(uintmax_t val, int base)
+void	add_pre_sign(t_vec *vec, t_opt *opt, int is_neg)
 {
-	int count;
-
-	if (val == 0)
-		return (1);
-	count = 0;
-	while (val != 0)
+	if ((opt->flags & PLUS) || is_neg)
 	{
-		val /= base;
-		count++;
-	}
-	return (count);
-}
-
-char	*itoa_base(uintmax_t val, int count, int n, int is_upper)
-{
-	char		*str;
-	char		*base;
-
-	base = "0123456789ABCDEF";
-	if (!is_upper)
-		base = "0123456789abcdef";
-	str = malloc(sizeof(char) * count);
-	if (val == 0)
-	{
-		str[0] = base[0];
-		return (str);
-	}
-	while (count > 0)
-	{
-		count--;
-		str[count] = base[val % n];
-		val /= n;
-	}
-	return (str);
-}
-
-void	pad_vec(t_vec *vec, char *str, int n, t_opt *opt)
-{
-	int		i;
-
-	if (opt->width > n)
-		if (opt->flags & minus)
-		{
-			push_back_str(vec, str, n);
-			i = n - 1;
-			while (++i < opt->width)
-				push_back_str(vec, " ", 1);
-		}
+		if (opt->flags & ZERO)
+			opt->width--;
 		else
-		{
-			i = -1;
-			while (++i < opt->width - n)
-				if (opt->flags & zero)
-					push_back_str(vec, "0", 1);
-				else
-					push_back_str(vec, " ", 1);
-			push_back_str(vec, str, n);
-		}
-	else
-		push_back_str(vec, str, n);
+			push_front_str(vec, (is_neg) ? ("-") : ("+"), 1);
+	}
+	else if (opt->flags & SPACE)
+	{
+		if (opt->flags & ZERO)
+			opt->width--;
+		else
+			push_front_str(vec, " ", 1);
+	}
 }
 
-uintmax_t	add_sign(t_vec *vec, intmax_t val, t_opt *opt)
+void	add_post_sign(t_vec *vec, t_opt *opt, int is_neg)
 {
-	uintmax_t new;
-
-	if (val < 0)
-	{
-		if (!(opt->flags & space))
-		{
-			opt->width--;
-			push_back_str(vec, "-", 1);
-		}
-		new = val * -1;
-	}
-	else
-	{
-		if (opt->flags & plus)
-		{
-			opt->width--;
-			push_back_str(vec, "+", 1);
-		}
-		new = val;
-	}
-	return (new);
+	if (!(opt->flags & ZERO))
+		return ;
+	if ((opt->flags & PLUS) || is_neg)
+		push_front_str(vec, (is_neg) ? ("-") : ("+"), 1);
+	else if (opt->flags & SPACE)
+		push_front_str(vec, " ", 1);
 }
 
-void	pad_zero(char **str, int *n, t_opt *opt)
+void	pad_width(t_vec *vec, t_opt *opt)
 {
-	int		i;
-	char	*new;
+	if (opt->width <= vec->size)
+		return ;
+	if (opt->flags & MINUS)
+		while (vec->size < opt->width)
+			push_back_str(vec, " ", 1);
+	else
+		while (vec->size < opt->width)
+			push_front_str(vec, (opt->flags & ZERO) ? ("0") : (" "), 1);
+}
 
-	if (opt->precision > n)
+void	max_itoa_base(t_vec *vec, uintmax_t val, int base, int is_upper)
+{
+	char	*cbase;
+
+	cbase = "0123456789abcdef";
+	if (is_upper)
+		cbase = "0123456789ABCDEF";
+	while (val > 0)
 	{
-		new = malloc(sizeof(char) * opt->precision);
-		i = 0;
-		while (*n < opt->precision)
-		{
-			new[i] = '0';
-			i++;
-			(*n)++;
-		}
-		ft_memcpy(&new[i], *str, (*n) - i);
-		free(*str);
-		*str = new;
+		push_front_str(vec, &cbase[val % base], 1);
+		val /= base;
 	}
+}
+
+void	pad_num_precision(t_vec *vec, t_opt *opt)
+{
+	if (vec->size >= opt->precision)
+		return ;
+	while (vec->size < opt->precision)
+		push_front_str(vec, "0", 1);
 }

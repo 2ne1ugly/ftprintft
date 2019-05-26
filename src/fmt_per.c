@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   fmt_per.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: awindham <awindham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 14:50:48 by awindham          #+#    #+#             */
-/*   Updated: 2018/12/02 16:54:49 by awindham         ###   ########.fr       */
+/*   Created: 2019/05/24 18:36:54 by mchi              #+#    #+#             */
+/*   Updated: 2019/05/25 19:37:14 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf_int.h"
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+t_vec	fmt_per(t_opt *opt, va_list *arg)
 {
-	int		i;
+	t_vec	out;
 
-	i = 0;
-	while (s1[i] && s1[i] == s2[i] && i < (int)n - 1)
-		i++;
-	if (n)
-		return (*((unsigned char *)s1 + i) - *((unsigned char *)s2 + i));
-	return (0);
+	(void)arg;
+	init_vec(&out);
+	push_back_str(&out, "%", 1);
+	pad_width(&out, opt);
+	return (out);
 }
