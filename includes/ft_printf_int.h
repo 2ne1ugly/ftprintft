@@ -6,7 +6,7 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 13:18:12 by mchi              #+#    #+#             */
-/*   Updated: 2019/05/27 12:17:44 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/27 12:24:05 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void			fmt_n(t_opt *opt, va_list *arg, int size);
 t_vec			fmt_d(t_opt *opt, va_list *arg);
 t_vec			fmt_u(t_opt *opt, va_list *arg);
 t_vec			fmt_f(t_opt *opt, va_list *arg);
+t_vec			fmt_b(t_opt *opt, va_list *arg);
 t_vec			fmt_per(t_opt *opt, va_list *arg);
 
 void			add_pre_sign(t_vec *vec, t_opt *opt, int is_neg);
