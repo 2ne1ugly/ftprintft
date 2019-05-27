@@ -6,15 +6,15 @@ CFLAGS_SPEED=-finline-functions -Ofast
 DEPS=libft.h
 
 vpath %.c src obj
+SRC=$(wildcard src/*)
+OBJ=$(SRC:src/%.c=obj/%.o)
 
-OBJ = $(subst .c,.o,$(subst src/*,obj,$(shell find . -name *.c)))
-
-obj/%.o: %.c
+obj/%.o: src/%.c
 	@mkdir -p obj
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	ar rcs $@ $^
+	ar rcs $@ obj/*
 	ranlib $(NAME)
 	
 

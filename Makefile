@@ -12,7 +12,7 @@ VPATH = src obj includes
 
 $(NAME): $(OBJ)
 	@make -C libft
-	ar rc $(NAME) obj/*	libft/libft.a
+	ar rc $(NAME) obj/* libft/obj/*
 	ranlib $(NAME)
 	@echo "$(NAME) build complete!"
 
