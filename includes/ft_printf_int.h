@@ -6,7 +6,7 @@
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 13:18:12 by mchi              #+#    #+#             */
-/*   Updated: 2019/05/25 23:02:25 by mchi             ###   ########.fr       */
+/*   Updated: 2019/05/27 12:17:44 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,5 @@ void			add_post_prefix(t_vec *vec, t_opt *opt, char *str);
 
 long double		ft_log10(long double y);
 long double		ft_pow(long double x, int y);
+void			format_this(t_vec *vec, const char **format, va_list *list);
 #endif

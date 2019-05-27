@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchi <mchi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/25 12:38:12 by mchi              #+#    #+#             */
-/*   Updated: 2019/05/27 12:12:56 by mchi             ###   ########.fr       */
+/*   Created: 2019/05/27 12:15:44 by mchi              #+#    #+#             */
+/*   Updated: 2019/05/27 12:18:32 by mchi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_int.h"
 
-int		ft_printf(const char *format, ...)
+int	ft_fprintf(int fd, const char *format, ...)
 {
 	t_vec	vec;
 	va_list list;
@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 			push_back_str(&vec, format, 1);
 		format++;
 	}
-	write(1, vec.ptr, vec.size);
+	write(fd, vec.ptr, vec.size);
 	va_end(list);
 	free_vec(&vec);
 	return (vec.size);
